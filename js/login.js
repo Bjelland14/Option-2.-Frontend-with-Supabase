@@ -6,7 +6,7 @@ const message = document.querySelector("#message");
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
-  const email = document.querySelector("#email").value;
+  const email = document.querySelector("#email").value.trim().toLowerCase();
   const password = document.querySelector("#password").value;
 
   message.textContent = "";

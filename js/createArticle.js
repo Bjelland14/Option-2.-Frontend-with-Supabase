@@ -2,7 +2,6 @@ import { supabase } from "./supabase.js";
 
 const form = document.querySelector("#article-form");
 const message = document.querySelector("#message");
-const logoutButton = document.querySelector("#logout-button");
 
 async function checkUser() {
   const {
@@ -17,12 +16,18 @@ async function checkUser() {
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
-  const title = document.querySelector("#title").value;
-  const category = document.querySelector("#category").value;
-  const body = document.querySelector("#body").value;
+  const title = document.querySelector("#title").value.trim();
+  const category = document.querySelector("#category").value.trim();
+  const body = document.querySelector("#body").value.trim();
 
   message.textContent = "";
   message.className = "";
+
+  if (!title || !category || !body) {
+    message.textContent = "Please fill in all fields.";
+    message.className = "error";
+    return;
+  }
 
   const {
     data: { user },
@@ -42,7 +47,8 @@ form.addEventListener("submit", async (event) => {
   });
 
   if (error) {
-    message.textContent = "Could not publish the article.";
+    console.error("Insert error:", error);
+    message.textContent = error.message;
     message.className = "error";
     return;
   }
@@ -51,11 +57,6 @@ form.addEventListener("submit", async (event) => {
   message.className = "success";
 
   form.reset();
-});
-
-logoutButton.addEventListener("click", async () => {
-  await supabase.auth.signOut();
-  window.location.href = "./index.html";
 });
 
 checkUser();

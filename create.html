@@ -15,8 +15,21 @@
         <a href="./index.html">Home</a>
 
         <div class="nav-links">
-          <a href="./create.html">Create article</a>
-          <button type="button" id="logout-button">Logout</button>
+          <a href="./login.html" id="login-link">Login</a>
+
+          <a href="./register.html" id="register-link">Register</a>
+
+          <a
+            href="./create.html"
+            id="create-link"
+            class="active hidden"
+          >
+            Create article
+          </a>
+
+          <button type="button" id="logout-button" class="hidden">
+            Logout
+          </button>
         </div>
       </nav>
     </header>
@@ -40,6 +53,7 @@
       <p id="message"></p>
     </main>
 
+    <script type="module" src="./js/navigation.js"></script>
     <script type="module" src="./js/createArticle.js"></script>
   </body>
 </html>

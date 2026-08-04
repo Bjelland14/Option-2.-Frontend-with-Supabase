@@ -13,60 +13,114 @@ header {
   background-color: #222;
 }
 
-nav {
+nav,
+main {
   width: 90%;
   max-width: 800px;
-  margin: 0 auto;
-  padding: 15px 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  margin: auto;
 }
 
-nav a {
-  color: white;
-  text-decoration: none;
+nav {
+  padding: 12px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 
 .nav-links {
   display: flex;
-  gap: 15px;
+  gap: 10px;
   align-items: center;
 }
 
-main {
-  width: 90%;
-  max-width: 800px;
-  margin: 30px auto;
+nav a,
+#logout-button {
+  padding: 9px 14px;
+  background-color: #333;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 15px;
 }
 
-button {
-  padding: 10px;
-  cursor: pointer;
+nav a:hover,
+#logout-button:hover {
+  background-color: #555;
+}
+
+nav a.active {
+  background-color: white;
+  color: #222;
+  border-color: white;
 }
 
 #logout-button {
-  background-color: white;
-  border: none;
+  margin: 0;
+  font-family: Arial, sans-serif;
 }
 
-#articles-container {
-  margin-top: 20px;
+main {
+  margin-top: 30px;
 }
 
+main > h1,
+#articles-container > p {
+  text-align: center;
+}
+
+form,
 .article-card {
+  max-width: 500px;
   background-color: white;
-  border: 1px solid #ccc;
   padding: 20px;
-  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  margin: 0 auto 20px;
+  border-radius: 4px;
 }
 
-.article-category {
+label {
+  display: block;
+  margin: 15px 0 5px;
   font-weight: bold;
 }
 
-.article-date {
-  color: #666;
+input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+}
+
+textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+button {
+  margin-top: 15px;
+  padding: 10px 16px;
+  background-color: #222;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+button:hover {
+  background-color: #444;
+}
+
+.delete-button {
+  background-color: darkred;
+}
+
+.delete-button:hover {
+  background-color: red;
 }
 
 .hidden {
@@ -82,14 +136,14 @@ button {
 }
 
 @media (max-width: 600px) {
-  nav {
+  nav,
+  .nav-links {
     flex-direction: column;
-    align-items: flex-start;
   }
 
-  .nav-links {
-    margin-top: 10px;
-    flex-direction: column;
-    align-items: flex-start;
+  nav a,
+  #logout-button {
+    width: 100%;
+    text-align: center;
   }
 }

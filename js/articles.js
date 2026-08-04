@@ -6,22 +6,26 @@ const message = document.querySelector("#message");
 async function getArticles() {
   articlesContainer.innerHTML = "<p>Loading articles...</p>";
 
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   const { data, error } = await supabase
     .from("articles")
     .select("*")
-    .order("created_at", { ascending: false });
+    .order("create_at", { ascending: false });
 
- if (error) {
-  console.error(error);
-
-  articlesContainer.innerHTML = "";
-  message.textContent = "Could not load articles.";
-  message.className = "error";
-  return;
-}
+  if (error) {
+    console.error(error);
+    articlesContainer.innerHTML = "";
+    message.textContent = "Could not load articles.";
+    message.className = "error";
+    return;
+  }
 
   if (data.length === 0) {
-    articlesContainer.innerHTML = "<p>No articles have been published yet.</p>";
+    articlesContainer.innerHTML =
+      "<p>No articles have been published yet.</p>";
     return;
   }
 
@@ -35,17 +39,48 @@ async function getArticles() {
     title.textContent = article.title;
 
     const category = document.createElement("p");
-    category.className = "article-category";
     category.textContent = article.category;
 
     const body = document.createElement("p");
     body.textContent = article.body;
 
-    const date = document.createElement("p");
-    date.className = "article-date";
-    date.textContent = new Date(article.created_at).toLocaleDateString();
+    articleCard.append(title, category, body);
 
-    articleCard.append(title, category, body, date);
+    if (user && user.id === article.submitted_by) {
+      const deleteButton = document.createElement("button");
+      deleteButton.textContent = "Delete";
+      deleteButton.className = "delete-button";
+
+      deleteButton.addEventListener("click", async () => {
+        const confirmed = confirm(
+          "Are you sure you want to delete this article?"
+        );
+
+        if (!confirmed) {
+          return;
+        }
+
+        const { error } = await supabase
+          .from("articles")
+          .delete()
+          .eq("id", article.id);
+
+        if (error) {
+          console.error(error);
+          message.textContent = "Could not delete the article.";
+          message.className = "error";
+          return;
+        }
+
+        message.textContent = "Article deleted successfully.";
+        message.className = "success";
+
+        getArticles();
+      });
+
+      articleCard.append(deleteButton);
+    }
+
     articlesContainer.append(articleCard);
   });
 }
