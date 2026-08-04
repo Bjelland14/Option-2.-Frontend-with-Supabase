@@ -11,12 +11,14 @@ async function getArticles() {
     .select("*")
     .order("created_at", { ascending: false });
 
-  if (error) {
-    articlesContainer.innerHTML = "";
-    message.textContent = "Could not load articles.";
-    message.className = "error";
-    return;
-  }
+ if (error) {
+  console.error(error);
+
+  articlesContainer.innerHTML = "";
+  message.textContent = "Could not load articles.";
+  message.className = "error";
+  return;
+}
 
   if (data.length === 0) {
     articlesContainer.innerHTML = "<p>No articles have been published yet.</p>";
