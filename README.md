@@ -43,7 +43,7 @@ npm run dev
 
 ## AI Usage
 
-ChatGPT was used for explanations, debugging assistance, and clarification of Supabase concepts.
+ChatGPT was used for explanations, debugging assistance.
 
 See [AI_LOG.md](./AI_LOG.md) for more information.
 
