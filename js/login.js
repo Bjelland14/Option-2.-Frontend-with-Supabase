@@ -12,10 +12,12 @@ form.addEventListener("submit", async (event) => {
   message.textContent = "";
   message.className = "";
 
-  const { error } = await supabase.auth.signInWithPassword({
+  const loginResponse = await supabase.auth.signInWithPassword({
     email,
     password,
   });
+
+  const error = loginResponse.error;
 
   if (error) {
     message.textContent = "Could not log in. Check your email and password.";

@@ -4,9 +4,8 @@ const form = document.querySelector("#article-form");
 const message = document.querySelector("#message");
 
 async function checkUser() {
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+  const sessionResponse = await supabase.auth.getSession();
+  const session = sessionResponse.data.session;
 
   if (!session) {
     window.location.href = "./login.html";
@@ -29,9 +28,8 @@ form.addEventListener("submit", async (event) => {
     return;
   }
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+const userResponse = await supabase.auth.getUser();
+const user = userResponse.data.user;
 
   if (!user) {
     message.textContent = "You must be logged in.";
@@ -39,12 +37,14 @@ form.addEventListener("submit", async (event) => {
     return;
   }
 
-  const { error } = await supabase.from("articles").insert({
-    title,
-    category,
-    body,
-    submitted_by: user.id,
-  });
+const insertResponse = await supabase.from("articles").insert({
+  title,
+  category,
+  body,
+  submitted_by: user.id,
+});
+
+const error = insertResponse.error;
 
   if (error) {
     console.error("Insert error:", error);

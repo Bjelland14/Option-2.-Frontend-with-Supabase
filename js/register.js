@@ -32,10 +32,12 @@ form.addEventListener("submit", async (event) => {
     return;
   }
 
-  const { error } = await supabase.auth.signUp({
+  const registerResponse = await supabase.auth.signUp({
     email,
     password,
   });
+
+  const error = registerResponse.error;
 
   if (error) {
     message.textContent = error.message;

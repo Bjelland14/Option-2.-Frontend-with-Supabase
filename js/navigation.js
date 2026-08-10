@@ -6,9 +6,8 @@ const createLink = document.querySelector("#create-link");
 const logoutButton = document.querySelector("#logout-button");
 
 async function updateNavigation() {
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+  const sessionResponse = await supabase.auth.getSession();
+  const session = sessionResponse.data.session;
 
   if (session) {
     loginLink.classList.add("hidden");

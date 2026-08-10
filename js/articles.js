@@ -6,14 +6,18 @@ const message = document.querySelector("#message");
 async function getArticles() {
   articlesContainer.innerHTML = "<p>Loading articles...</p>";
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+const userResponse = await supabase.auth.getUser();
+const user = userResponse.data.user;
 
-  const { data, error } = await supabase
-    .from("articles")
-    .select("*")
-    .order("create_at", { ascending: false });
+const articleResponse = await supabase
+  .from("articles")
+  .select("*")
+  .order("create_at", { ascending: false });
+
+const data = articleResponse.data;
+const error = articleResponse.error;
+
+
 
   if (error) {
     console.error(error);
@@ -60,10 +64,13 @@ async function getArticles() {
           return;
         }
 
-        const { error } = await supabase
+    const deleteResponse = await supabase
           .from("articles")
           .delete()
           .eq("id", article.id);
+
+    const error = deleteResponse.error;
+    
 
         if (error) {
           console.error(error);
