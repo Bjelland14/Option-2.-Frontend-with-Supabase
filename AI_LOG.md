@@ -6,7 +6,7 @@ ChatGPT
 
 ## Usage Period
 
-27.07.26 – 10.08.26
+27.07.26 – 12.08.26
 
 ## Assignment
 
