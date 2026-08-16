@@ -38,7 +38,7 @@ Then open `index.html` in the browser.
 
 ## AI Usage
 
-ChatGPT was used for explanations, brainstorming, debugging assistance, and code examples.
+ChatGPT was used for explanations, brainstorming, debugging assistance.
 
 See [AI_LOG.md](./AI_LOG.md) for more information.
 
