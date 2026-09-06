@@ -53,7 +53,7 @@ The policies allow:
 
 See [supabase-policies.sql](./supabase-policies.sql) for the RLS configuration.
 
-### RLS Testing
+### RLS Configuration
 
 The RLS policies are configured to ensure that:
 
