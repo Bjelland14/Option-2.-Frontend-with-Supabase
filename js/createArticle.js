@@ -4,11 +4,25 @@ const form = document.querySelector("#article-form");
 const message = document.querySelector("#message");
 
 async function checkUser() {
-  const sessionResponse = await supabase.auth.getSession();
-  const session = sessionResponse.data.session;
+  try {
+    const sessionResponse = await supabase.auth.getSession();
 
-  if (!session) {
-    window.location.href = "./login.html";
+    if (sessionResponse.error) {
+      console.error(sessionResponse.error);
+      message.textContent = "Could not check user session.";
+      message.className = "error";
+      return;
+    }
+
+    const session = sessionResponse.data.session;
+
+    if (!session) {
+      window.location.href = "./login.html";
+    }
+  } catch (error) {
+    console.error(error);
+    message.textContent = "Something went wrong. Please try again.";
+    message.className = "error";
   }
 }
 
@@ -28,35 +42,49 @@ form.addEventListener("submit", async (event) => {
     return;
   }
 
-const userResponse = await supabase.auth.getUser();
-const user = userResponse.data.user;
+  try {
+    const userResponse = await supabase.auth.getUser();
 
-  if (!user) {
-    message.textContent = "You must be logged in.";
+    if (userResponse.error) {
+      console.error(userResponse.error);
+      message.textContent = "Could not check user session.";
+      message.className = "error";
+      return;
+    }
+
+    const user = userResponse.data.user;
+
+    if (!user) {
+      message.textContent = "You must be logged in.";
+      message.className = "error";
+      return;
+    }
+
+    const insertResponse = await supabase.from("articles").insert({
+      title,
+      category,
+      body,
+      submitted_by: user.id,
+    });
+
+    const error = insertResponse.error;
+
+    if (error) {
+      console.error("Insert error:", error);
+      message.textContent = error.message;
+      message.className = "error";
+      return;
+    }
+
+    message.textContent = "Article published successfully.";
+    message.className = "success";
+
+    form.reset();
+  } catch (error) {
+    console.error(error);
+    message.textContent = "Something went wrong. Please try again.";
     message.className = "error";
-    return;
   }
-
-const insertResponse = await supabase.from("articles").insert({
-  title,
-  category,
-  body,
-  submitted_by: user.id,
-});
-
-const error = insertResponse.error;
-
-  if (error) {
-    console.error("Insert error:", error);
-    message.textContent = error.message;
-    message.className = "error";
-    return;
-  }
-
-  message.textContent = "Article published successfully.";
-  message.className = "success";
-
-  form.reset();
 });
 
 checkUser();

@@ -12,23 +12,29 @@ form.addEventListener("submit", async (event) => {
   message.textContent = "";
   message.className = "";
 
-  const loginResponse = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
+  try {
+    const loginResponse = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
 
-  const error = loginResponse.error;
+    const error = loginResponse.error;
 
-  if (error) {
-    message.textContent = "Could not log in. Check your email and password.";
+    if (error) {
+      message.textContent = "Could not log in. Check your email and password.";
+      message.className = "error";
+      return;
+    }
+
+    message.textContent = "Login successful.";
+    message.className = "success";
+
+    setTimeout(() => {
+      window.location.href = "./index.html";
+    }, 1000);
+  } catch (error) {
+    console.error(error);
+    message.textContent = "Something went wrong. Please try again.";
     message.className = "error";
-    return;
   }
-
-  message.textContent = "Login successful.";
-  message.className = "success";
-
-  setTimeout(() => {
-    window.location.href = "./index.html";
-  }, 1000);
 });

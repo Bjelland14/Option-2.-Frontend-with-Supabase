@@ -42,6 +42,26 @@ ChatGPT was used for explanations, brainstorming, debugging assistance.
 
 See [AI_LOG.md](./AI_LOG.md) for more information.
 
+## Supabase RLS
+
+Row Level Security is enabled on the `articles` table.
+
+The policies allow:
+- Anyone to read articles.
+- Authenticated users to create articles.
+- Users to delete only their own articles.
+
+See [supabase-policies.sql](./supabase-policies.sql) for the RLS configuration.
+
+### RLS Testing
+
+The RLS policies are configured to ensure that:
+
+- Unauthenticated users cannot insert articles.
+- A logged-in user cannot delete an article owned by another user.
+
+The frontend redirect is only used for navigation. The actual access restrictions are enforced by Supabase RLS policies.
+
 ## Author
 
 Lloyd Bjelland

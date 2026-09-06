@@ -8,8 +8,7 @@ form.addEventListener("submit", async (event) => {
 
   const email = document.querySelector("#email").value.trim().toLowerCase();
   const password = document.querySelector("#password").value;
-  const confirmPassword =
-    document.querySelector("#confirm-password").value;
+  const confirmPassword = document.querySelector("#confirm-password").value;
 
   message.textContent = "";
   message.className = "";
@@ -32,22 +31,28 @@ form.addEventListener("submit", async (event) => {
     return;
   }
 
-  const registerResponse = await supabase.auth.signUp({
-    email,
-    password,
-  });
+  try {
+    const registerResponse = await supabase.auth.signUp({
+      email,
+      password,
+    });
 
-  const error = registerResponse.error;
+    const error = registerResponse.error;
 
-  if (error) {
-    message.textContent = error.message;
+    if (error) {
+      message.textContent = error.message;
+      message.className = "error";
+      return;
+    }
+
+    message.textContent =
+      "Registration successful. Check your email to confirm your account.";
+    message.className = "success";
+
+    form.reset();
+  } catch (error) {
+    console.error(error);
+    message.textContent = "Something went wrong. Please try again.";
     message.className = "error";
-    return;
   }
-
-  message.textContent =
-    "Registration successful. Check your email to confirm your account.";
-  message.className = "success";
-
-  form.reset();
 });
